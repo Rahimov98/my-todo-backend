@@ -12,7 +12,7 @@ const FILE_PATH = path.join(__dirname, 'db.json');
 async function readData() {
     try {
         const data = await fs.readFile(FILE_PATH, 'utf8');
-        return JSON.parse(data);
+        return JSON.parse(data.trim()); // trim() уберет невидимые символы
     } catch (e) { return []; }
 }
 
@@ -26,11 +26,13 @@ app.get('/tasks', async (req, res) => {
 });
 
 app.post('/tasks', async (req, res) => {
-    const tasks = await readData();
-    const newTask = { id: Date.now(), title: req.body.title, completed: false };
-    tasks.push(newTask);
-    await writeData(tasks);
-    res.status(201).json(newTask);
+    try {
+        const tasks = await readData();
+        const newTask = { id: Date.now(), title: req.body.title, completed: false };
+        tasks.push(newTask);
+        await writeData(tasks);
+        res.status(201).json(newTask);
+    } catch (e) { res.status(500).json({error: e.message}); }
 });
 
 app.delete('/tasks/:id', async (req, res) => {
@@ -43,6 +45,6 @@ app.delete('/tasks/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server started on port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`LIVE_ON_PORT_${PORT}`);
 });
