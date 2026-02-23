@@ -1,56 +1,57 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs').promises; // Подключаем работу с файлами
-const app = express();
+const fs = require('fs').promises;
+const path = require('path');
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-const path = require('path');
 const FILE_PATH = path.join(__dirname, 'db.json');
 
-// Асинхронное чтение
+// Чтение данных
 async function readData() {
     try {
         const data = await fs.readFile(FILE_PATH, 'utf8');
         return JSON.parse(data);
     } catch (error) {
-        return [] //Если файла нет, вернем пустой массив
+        return [];
     }
-};
+}
 
-// Асинхронная запись
+// Запись данных
 async function writeData(data) {
     await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2));
-};
+}
 
-// Теперь обработчики тоже должны быть async
+// Маршруты
 app.get('/tasks', async (req, res) => {
     const tasks = await readData();
     res.json(tasks);
 });
 
-// 2. Добавить задачу
 app.post('/tasks', async (req, res) => {
     const tasks = await readData();
     const newTask = { id: Date.now(), title: req.body.title, completed: false };
     tasks.push(newTask);
-    await writeData(tasks); // Сохраняем на диск!
+    await writeData(tasks);
     res.status(201).json(newTask);
 });
 
-// 3. Удалить задачу
 app.delete('/tasks/:id', async (req, res) => {
     try {
         let tasks = await readData();
         const idToDelete = parseInt(req.params.id);
         tasks = tasks.filter(t => t.id !== idToDelete);
-        await writeData(tasks); // Сохраняем на диск!
+        await writeData(tasks);
         res.status(204).send();
-    } catch(error){
-        console.error("Ошибка при удалении:", error);
+    } catch (error) {
         res.status(500).send("Ошибка сервера");
     }
 });
+
+// ПРАВИЛЬНЫЙ ЗАПУСК ДЛЯ RENDER
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
+});
