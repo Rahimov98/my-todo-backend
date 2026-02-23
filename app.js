@@ -6,7 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const FILE_PATH = './db.json';
+const path = require('path');
+const FILE_PATH = path.join(__dirname, './db.json');
 
 // Асинхронное чтение
 async function readData() {
