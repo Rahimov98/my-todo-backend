@@ -1,0 +1,9 @@
+#mainTitle {
+    color: red;
+    font-size: 40;
+}
+
+.new-item-animation {
+    opacity: 1;
+    transition: opacity 3s ease-in;
+}
