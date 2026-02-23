@@ -9,22 +9,17 @@ app.use(express.json());
 
 const FILE_PATH = path.join(__dirname, 'db.json');
 
-// Чтение данных
 async function readData() {
     try {
         const data = await fs.readFile(FILE_PATH, 'utf8');
         return JSON.parse(data);
-    } catch (error) {
-        return [];
-    }
+    } catch (e) { return []; }
 }
 
-// Запись данных
 async function writeData(data) {
     await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2));
 }
 
-// Маршруты
 app.get('/tasks', async (req, res) => {
     const tasks = await readData();
     res.json(tasks);
@@ -41,17 +36,13 @@ app.post('/tasks', async (req, res) => {
 app.delete('/tasks/:id', async (req, res) => {
     try {
         let tasks = await readData();
-        const idToDelete = parseInt(req.params.id);
-        tasks = tasks.filter(t => t.id !== idToDelete);
+        tasks = tasks.filter(t => t.id !== parseInt(req.params.id));
         await writeData(tasks);
         res.status(204).send();
-    } catch (error) {
-        res.status(500).send("Ошибка сервера");
-    }
+    } catch (e) { res.status(500).send(); }
 });
 
-// ПРАВИЛЬНЫЙ ЗАПУСК ДЛЯ RENDER
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server started on port ${PORT}`);
 });
