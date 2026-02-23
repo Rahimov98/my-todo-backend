@@ -14,13 +14,13 @@ async function readData() {
     try {
         const data = await fs.readFile(FILE_PATH, 'utf8');
         return JSON.parse(data);
-    } catch(error) {
-        return[] //Если файла нет, вернем пустой массив
+    } catch (error) {
+        return [] //Если файла нет, вернем пустой массив
     }
 };
 
 // Асинхронная запись
-async function writeData (data) {
+async function writeData(data) {
     await fs.writeFile(FILE_PATH, JSON.stringify(data, null, 2));
 };
 
@@ -41,10 +41,16 @@ app.post('/tasks', async (req, res) => {
 
 // 3. Удалить задачу
 app.delete('/tasks/:id', async (req, res) => {
-    let tasks = await readData();
-    tasks = tasks.filter(t => t.id !== parseInt(req.params.id));
-    await writeData(tasks); // Сохраняем на диск!
-    res.status(204).send();
+    try {
+        let tasks = await readData();
+        const idToDelete = parseInt(req.params.id);
+        tasks = tasks.filter(t => t.id !== idToDelete);
+        await writeData(tasks); // Сохраняем на диск!
+        res.status(204).send();
+    } catch(error){
+        console.error("Ошибка при удалении:", error);
+        res.status(500).send("Ошибка сервера");
+    }
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`));

@@ -1,13 +1,21 @@
 {
   "name": "my-first-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rahimov98/my-todo-backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rahimov98/my-todo-backend/issues"
+  },
+  "homepage": "https://github.com/Rahimov98/my-todo-backend#readme",
   "description": "",
   "dependencies": {
     "cors": "^2.8.6",
