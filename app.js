@@ -40,10 +40,10 @@ app.post('/tasks', async (req, res) => {
 });
 
 // 3. Удалить задачу
-app.delete('/tasks/:id', (req, res) => {
-    let tasks = readData();
+app.delete('/tasks/:id', async (req, res) => {
+    let tasks = await readData();
     tasks = tasks.filter(t => t.id !== parseInt(req.params.id));
-    writeData(tasks); // Сохраняем на диск!
+    await writeData(tasks); // Сохраняем на диск!
     res.status(204).send();
 });
 const PORT = process.env.PORT || 3000;
