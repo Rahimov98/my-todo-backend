@@ -1,9 +1,93 @@
-#mainTitle {
-    color: red;
-    font-size: 40;
+/* Общие настройки шрифтов и фона */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    margin: 0;
 }
 
-.new-item-animation {
-    opacity: 1;
-    transition: opacity 3s ease-in;
+/* Заголовки */
+#main-title {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+#quote {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+/* Контейнер для списка задач */
+#task-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Стиль каждой задачи (li) */
+#task-list li {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+#task-list li:hover {
+    transform: scale(1.02);
+}
+
+/* Инпут (поле ввода) */
+input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 300px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #3498db;
+}
+
+/* Кнопка ADD */
+#add-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin-top: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#add-button:hover {
+    background-color: #2980b9;
+}
+
+/* Кнопка удаления (крестик) */
+button:not(#add-button) {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #e74c3c;
+    transition: opacity 0.2s;
+}
+
+button:not(#add-button):hover {
+    opacity: 0.7;
 }
