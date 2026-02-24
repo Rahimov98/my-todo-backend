@@ -63,7 +63,8 @@ function setRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     quoteElement.textContent = quotes[randomIndex];
 }
-
+// Вызываем функцию при загрузке страницы
+setRandomQuote();
 // 4. УДАЛЕНИЕ (DELETE)
 function deleteTask(id) {
     fetch(`${API_URL}/${id}`, {
