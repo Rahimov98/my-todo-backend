@@ -50,6 +50,20 @@ addBtn.addEventListener('click', () => {
     });
 });
 
+const quotes = [
+    "Сделай это сегодня, а не завтра! 💪",
+    "Маленькие шаги ведут к большим результатам. 🚀",
+    "Продуктивность — это не количество дел, а их качество. ✨",
+    "Твой успех начинается с твоего списка задач. 📝",
+    "Дисциплина — это мост между целью и достижением. 🔥"
+];
+
+function setRandomQuote() {
+    const quoteElement = document.querySelector('#quote');
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    quoteElement.textContent = quotes[randomIndex];
+}
+
 // 4. УДАЛЕНИЕ (DELETE)
 function deleteTask(id) {
     fetch(`${API_URL}/${id}`, {
